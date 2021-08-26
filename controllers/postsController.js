@@ -74,7 +74,9 @@ const editPost = async (req, res = response) => {
 
 const getPosts = async (req, res = response) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find()
+      .populate('user', ['firstName', 'lastName', 'email', 'role'])
+      .populate('category', 'description');
 
     return res.status(200).json({
       ok: true,
