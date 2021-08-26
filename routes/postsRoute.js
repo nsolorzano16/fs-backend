@@ -11,6 +11,9 @@ const {
   deletePost,
 } = require('../controllers/postsController');
 
+//get posts
+router.get('/', getPosts);
+
 //api/post
 router.use(validateJWT);
 
@@ -45,9 +48,6 @@ router.put(
   ],
   editPost
 );
-
-//get posts
-router.get('/', getPosts);
 
 //delete post
 router.delete('/:id', deletePost);
