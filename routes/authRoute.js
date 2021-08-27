@@ -12,6 +12,23 @@ const { check } = require('express-validator');
 const { validateFields } = require('../middlewares/validateFields');
 const { validateJWT } = require('../middlewares/validateJWT');
 
+//login
+router.post(
+  '/',
+  [
+    check('email', 'Email is required').exists(),
+    check('password', 'Password is required').exists(),
+    check('email', 'Email format is not valid').isEmail(),
+    check('password', 'Password must be at least 6 characters').isLength({
+      min: 6,
+    }),
+    validateFields,
+  ],
+  login
+);
+
+router.use(validateJWT);
+
 //new user
 router.post(
   '/new',
@@ -37,22 +54,6 @@ router.post(
   createUser
 );
 
-//login
-router.post(
-  '/',
-  [
-    check('email', 'Email is required').exists(),
-    check('password', 'Password is required').exists(),
-    check('email', 'Email format is not valid').isEmail(),
-    check('password', 'Password must be at least 6 characters').isLength({
-      min: 6,
-    }),
-    validateFields,
-  ],
-  login
-);
-
-router.use(validateJWT);
 //renew token
 router.get('/renew', renewToken);
 
