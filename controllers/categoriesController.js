@@ -82,7 +82,10 @@ const getCategories = async (req, res = response) => {
       });
     }
 
-    const categories = await Category.find();
+    const categories = await Category.find().populate('user', [
+      'firstName',
+      'lastName',
+    ]);
 
     return res.status(200).json({
       ok: true,
