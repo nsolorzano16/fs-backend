@@ -155,11 +155,14 @@ const editUser = async (req, res = response) => {
       });
     }
 
-    const { firstName, lastName, email, role: roleEdit } = req.body;
+    const { firstName, lastName, email, role: roleEdit, password } = req.body;
     user.firstName = firstName;
     user.lastName = lastName;
     user.email = email;
     user.role = roleEdit;
+
+    const salt = bcrypt.genSaltSync();
+    user.password = bcrypt.hashSync(password, salt);
 
     const userEdit = await User.findByIdAndUpdate(userId, user, {
       new: true,
